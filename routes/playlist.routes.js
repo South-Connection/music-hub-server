@@ -42,5 +42,39 @@ router.get('/playlists/:playlistId', (req, res, next)=>{
 });
 
 
+router.put("/playlists/:playlistId", (req, res, next) => {
+    const { playlistId } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(playlistId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+  
+    Playlist.findByIdAndUpdate(playlistId, req.body)
+      .then(() =>
+        res.json({
+          message: `Playlist with ${playlistId} is updated successfully.`,
+        })
+      )
+      .catch(err => res.status(500).json(err));
+  });
+
+  router.delete("/playlists/:playlistId", (req, res, next) => {
+    const { playlistId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(playlistId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+  
+    Playlist.findByIdAndRemove(playlistId)
+      .then(() =>
+        res.json({
+          message: `playlist with ${playlistId} is removed successfully.`,
+        })
+      )
+      .catch(err => res.status(500).json(err));
+  });
+
+
 
 module.exports = router;

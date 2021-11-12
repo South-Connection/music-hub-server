@@ -1,35 +1,30 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-
 const playlistSchema = new Schema({
-    title: {
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  songs: [
+    {
+      title: {
         type: String,
-        required: true
+        required: true,
+      },
+
+      link: {
+        type: String,
+        required: true,
+      },
     },
-    description: {
-        type: String
-    },
-    songs: [
-        {
-            title: {
-                type: String,
-                required: true
-            },
+  ],
 
-            link: {
-                type: String,
-                required: true
-            }
+  guests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  owner: { type: Schema.Types.ObjectId, ref: "User" },
+});
 
-        }
-    ],
-
-    guests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    owner: { type: Schema.Types.ObjectId, ref: "User" }
-})
-
-
-
-
-module.exports = model('Playlist', playlistSchema);
+module.exports = model("Playlist", playlistSchema);
