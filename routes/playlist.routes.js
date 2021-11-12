@@ -16,10 +16,10 @@ router.post('/playlists', (req, res, next) => {
         // owner: req.user._id
     })
         .then(response => res.json(response))
-        .catch(err => res.json(err));
+        .catch(err => res.status(500).json(err));
 });
 
-//Postman check: description is missing
+
 router.get('/playlists', (req, res, next) => {
     Playlist.find()
         // .populate()
@@ -27,6 +27,19 @@ router.get('/playlists', (req, res, next) => {
             .catch((err) => res.json(err))
 });
 
+router.get('/playlists/:playlistId', (req, res, next)=>{
+    const {playlistId} = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(playlistId)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+      }
+    
+    Playlist.findById(playlistId)
+    // .populate('user')
+    .then(playlist => res.status(200).json(playlist))
+    .catch(err => res.status(500).json(err));
+});
 
 
 
