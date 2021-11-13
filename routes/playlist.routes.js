@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Playlist = require('../models/Playlist.model');
 const User = require('../models/User.model')
 
+
 router.post('/playlists', (req, res, next) => {
     const { title, description, songs, owner, guests} = req.body;
 
@@ -19,7 +20,7 @@ router.post('/playlists', (req, res, next) => {
         .catch(err => res.status(500).json(err));
 });
 
-
+//get all the playlists
 router.get('/playlists', (req, res, next) => {
     Playlist.find()
         // .populate()
@@ -27,6 +28,7 @@ router.get('/playlists', (req, res, next) => {
             .catch((err) => res.json(err))
 });
 
+//get Playlist Details
 router.get('/playlists/:playlistId', (req, res, next)=>{
     const {playlistId} = req.params;
 
@@ -41,7 +43,7 @@ router.get('/playlists/:playlistId', (req, res, next)=>{
     .catch(err => res.status(500).json(err));
 });
 
-
+//update Playlist
 router.put("/playlists/:playlistId", (req, res, next) => {
     const { playlistId } = req.params;
   
@@ -59,6 +61,7 @@ router.put("/playlists/:playlistId", (req, res, next) => {
       .catch(err => res.status(500).json(err));
   });
 
+  //delete Playlist
   router.delete("/playlists/:playlistId", (req, res, next) => {
     const { playlistId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(playlistId)) {
