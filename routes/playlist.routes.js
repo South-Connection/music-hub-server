@@ -6,14 +6,14 @@ const Playlist = require('../models/Playlist.model');
 const User = require('../models/User.model')
 
 router.post('/playlists', (req, res, next) => {
-    const { title, description, songs, guests } = req.body;
+    const { title, description, songs, owner, guests} = req.body;
 
     Playlist.create({
         title,
         description,
         songs,
-        // guests,
-        // owner: req.user._id
+        owner,
+        guests
     })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err));
