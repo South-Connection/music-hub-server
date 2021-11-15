@@ -56,10 +56,9 @@ module.exports = (app) => {
         mongoUrl: MONGO_URI,
       }),
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365,
-        sameSite: "none",
-        secure: process.env.NODE_ENV === "production",
-      },
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+        secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+      }
     })
   );
 
