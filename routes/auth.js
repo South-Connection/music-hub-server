@@ -125,9 +125,11 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 router.post("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ errorMessage: err.message });
-    }
-    res.json({ message: "Log out successfully!" });
+      return res
+      .status(500)
+      .json({ errorMessage: err.message });
+    } 
+    res.status(200).json({ message: "Log out successfully!" });
   });
 });
 

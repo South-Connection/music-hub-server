@@ -15,7 +15,7 @@ router.post('/playlists', isLoggedIn, (req, res, next) => {
         title,
         description,
         songs,
-        owner,
+        owner: req.user._id,
         guests
     })
         .then(response => res.json(response))
