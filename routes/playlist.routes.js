@@ -9,13 +9,13 @@ const isLogedOut = require("../middleware/isLoggedOut");
 
 
 router.post('/playlists', isLoggedIn, (req, res, next) => {
-    const { title, description, songs, owner, guests} = req.body;
+    const { title, description, songs, guests} = req.body;
 
     Playlist.create({
         title,
         description,
         songs,
-        owner: req.user._id,
+        owner: req.session.user._id,
         guests
     })
         .then(response => res.json(response))
