@@ -126,12 +126,12 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
-router.get("/logout", isLoggedIn, (req, res) => {
+router.post("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ errorMessage: err.message });
     }
-    res.json({ message: "Your are logged out" });
+    res.json({ message: "You are logged out" });
   });
 });
 
