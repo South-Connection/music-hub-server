@@ -27,7 +27,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
       .json({ errorMessage: "Please provide your username." });
   }
 
-  if (password.length < 8) {
+  if (password.length < 6) {
     return res.status(400).json({
       errorMessage: "Your password needs to be at least 6 characters long.",
     });
@@ -48,7 +48,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   User.findOne({ username }).then((found) => {
     // If the user is found, send the message username is taken & redirect to /signup
     if (found) {
-      // return res.status(400).json("auth/signup", { errorMessage: "Username already taken." });
+      return res.status(400).json("auth/signup", { errorMessage: "Username already taken." });
     }
 
     // if user is not found, create a new user - start with hashing the password
@@ -93,7 +93,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Here we use the same logic as above
   // - either length based parameters or we check the strength of a password
-  if (password.length < 8) {
+  if (password.length < 6) {
     return res.status(400).json({
       errorMessage: "Your password needs to be at least 6 characters long.",
     });
@@ -122,7 +122,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
       // in this case we are sending the error handling to the error handling middleware that is defined in the error handling file
       // you can just as easily run the res.status that is commented out below
       next(err);
-      // return res.status(500).render("login", { errorMessage: err.message });
+      return res.status(500).render("login", { errorMessage: err.message });
     });
 });
 
@@ -131,7 +131,7 @@ router.post("/logout", isLoggedIn, (req, res) => {
     if (err) {
       return res.status(500).json({ errorMessage: err.message });
     }
-    res.json({ message: "You are logged out" });
+    res.status(200).json({ message: "You are logged out" });
   });
 });
 
