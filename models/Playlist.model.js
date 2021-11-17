@@ -23,7 +23,7 @@ const playlistSchema = new Schema({
     },
   ],
 
-  guests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  guests: [{type: Schema.Types.ObjectId, ref: "User"}] ,
   owner: { type: Schema.Types.ObjectId, ref: "User" },
 });
 

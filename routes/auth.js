@@ -33,22 +33,22 @@ router.post("/signup", isLoggedOut, (req, res) => {
     });
   }
 
- 
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
 
   if (!regex.test(password)) {
-    return res.status(500).json( {
+    return res.status(500).json({
       errorMessage:
         "Password needs to have at least 6 characters and must contain at least one number, one lowercase and one uppercase letter.",
     });
   }
 
-
   // Search the database for a user with the username submitted in the form
   User.findOne({ username }).then((found) => {
     // If the user is found, send the message username is taken & redirect to /signup
     if (found) {
-      return res.status(400).json("auth/signup", { errorMessage: "Username already taken." });
+      return res
+        .status(400)
+        .json("auth/signup", { errorMessage: "Username already taken." });
     }
 
     // if user is not found, create a new user - start with hashing the password
