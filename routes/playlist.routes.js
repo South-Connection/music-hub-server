@@ -52,7 +52,7 @@ router.get('/playlists/:playlistId', (req, res, next)=>{
 });
 
 //update Playlist
-router.put("/playlists/:playlistId", isLoggedIn, (req, res, next) => {
+router.put("/playlists/:playlistId", (req, res, next) => {
     const { playlistId } = req.params;
   
     if (!mongoose.Types.ObjectId.isValid(playlistId)) {
@@ -70,7 +70,7 @@ router.put("/playlists/:playlistId", isLoggedIn, (req, res, next) => {
   });
 
   //delete Playlist
-  router.delete("/playlists/:playlistId", isLoggedIn,(req, res, next) => {
+  router.delete("/playlists/:playlistId",(req, res, next) => {
     const { playlistId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(playlistId)) {
       res.status(400).json({ message: "Specified id is not valid" });
