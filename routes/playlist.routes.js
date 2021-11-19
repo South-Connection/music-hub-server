@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
 const Playlist = require("../models/Playlist.model");
 const User = require("../models/User.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
 const isLoggedOut = require("../middleware/isLoggedOut");
 
+
 router.post("/playlists", isLoggedIn, (req, res, next) => {
-  console.log(req.body);
   const { title, description, songName, songLink, guests } = req.body;
   Playlist.create({
     title,
@@ -23,7 +22,6 @@ router.post("/playlists", isLoggedIn, (req, res, next) => {
 //routes for usersfromDb
 router.get("/users", (req, res, next) => {
   User.find()
-    // .populate()
     .then((allUsersFromDb) => res.json(allUsersFromDb))
     .catch((err) => res.json(err));
 });
@@ -31,25 +29,20 @@ router.get("/users", (req, res, next) => {
 //get all the playlists in the system
 router.get("/all-playlists", (req, res, next) => {
   Playlist.find()
-    // .populate()
     .then((allThePlaylists) => res.json(allThePlaylists))
     .catch((err) => res.json(err));
 });
 
 //get all the playlists for the current user (user needs to be owner or guest)
 router.get("/playlists", (req, res, next) => {
-  //todo: get only the playlists related to the current user
-  // current user: req.session.user._id (?)
-  //
-
+  
   Playlist.find()
-    // .populate()
     .then((allThePlaylists) => {
-      //filter....
-      // const myPlaylists = allThePlaylists.filter((item) => {
-      //   return xxxx === xxxxxx || item.type === this.state.filter;
-      // });
-      res.json(allThePlaylists);
+      const myPlaylists = allThePlaylists.filter( (item) => {
+        return item.owner.toString() === req.session.user._id || item.guests.includes(req.session.user._id);
+      });
+
+      res.json(myPlaylists);
     })
     .catch((err) => res.json(err));
 });
@@ -89,13 +82,6 @@ router.put("/playlists/:playlistId", (req, res, next) => {
     )
     .catch((err) => res.status(500).json(err));
 
-  // Playlist.findByIdAndUpdate(playlistId, req.body, {songs: [...{ title: songName, link: songLink }]})
-  //   .then(() =>
-  //     res.json({
-  //       message: `Playlist with ${playlistId} is updated successfully.`,
-  //     })
-  //   )
-  //   .catch((err) => res.status(500).json(err));
 });
 
 //delete Playlist
